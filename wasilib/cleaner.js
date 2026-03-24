@@ -1,3 +1,8 @@
+/**
+ * ⚡ WASI-LIGHT-MD ⚡
+ * Cleaner Utility
+ * Powered by Mr Wasi (ixxwasi)
+ */
 function escapeRegex(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); 
 }

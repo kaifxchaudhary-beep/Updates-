@@ -1,3 +1,8 @@
+/**
+ * ⚡ WASI-LIGHT-MD ⚡
+ * Main Entry Point
+ * Powered by Mr Wasi (ixxwasi)
+ */
 require('dotenv').config();
 const {
     DisconnectReason,

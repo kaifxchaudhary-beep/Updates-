@@ -1,60 +1,68 @@
-# 🤖 KAIF-MD - Advanced WhatsApp Bot
+# ✨ WASI-LIGHT-MD ✨
+### Developed by [Mr Wasi (ixxwasi)](https://github.com/ixxwasi)
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Version-7.0.0-blue?style=for-the-badge" alt="Version">
-  <img src="https://img.shields.io/badge/WhatsApp-Bot-25D366?style=for-the-badge&logo=whatsapp" alt="WhatsApp">
-  <img src="https://img.shields.io/badge/Node.js-20-339933?style=for-the-badge&logo=node.js" alt="Node.js">
-  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License">
-</p>
-
-<p align="center">
-  <b>The most powerful and feature-rich WhatsApp bot built with Baileys MD</b>
-</p>
+A streamlined, stable, and high-performance WhatsApp bot focused on **Auto-Forwarding** and core utility commands.
 
 ---
 
-## 🚀 One-Click Deploy
+## 🚀 **CORE FEATURES**
+- 🔄 **Auto-Forwarding**: Automatically relay messages from source groups to target chats including channels/newsletters.
+- 🧹 **Smart Cleaning**: Automatically removes "Forwarded" labels and "Forwarding Scores".
+- ✍️ **Regex Replacement**: Swap text/captions (like removing old links or adding your own footer) on the fly.
+- 💾 **Safe Session Management**: Uses MongoDB for persistent auth states, ensuring your bot never logs out.
+- ⚡ **Light & Fast**: Stripped of bloated plugins for extreme stability and speed.
 
-<p align="center">
-  <a href="https://heroku.com/deploy?template=https://github.com/KaifxChaudhary-dev/Kaif-Md">
-    <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy to Heroku" height="40">
-  </a>
+---
 
-## 💻 Local Setup
+## 🛠️ **AVAILABLE COMMANDS**
+| Command | Alias | Description |
+| ------- | ----- | ----------- |
+| `.af` | `.autoforward` | Configure auto-forward targets for the current group. |
+| `.f` | `.forward` | Manually forward a replied message to multiple JIDs. |
+| `.gjids` | | List all your group names and their unique JIDs. |
+| `.jid` | | Get the JID of the current chat. |
 
+---
+
+## 💻 **SETUP & DEPLOYMENT**
+
+### **Prerequisites**
+- **Node.js 20+**
+- **MongoDB Database** (Essential for session stability)
+
+### **Local Installation**
 ```bash
-# Clone repository
-git clone https://github.com/KaifxChaudhary-dev/Kaif-Md.git
-
-# Go to directory
-cd Kaid-Md
+# Clone the repository
+git clone https://github.com/ixxwasi/Wasi-Light-Md.git
 
 # Install dependencies
 npm install
 
-# Start bot
+# Configure environment variables
+# See below for requirements
+
+# Start the bot
 npm start
 ```
 
-After starting, open http://localhost:3000 in your browser.
+---
+
+## ⚙️ **ENVIRONMENT VARIABLES**
+
+| Variable | Description |
+| -------- | ----------- |
+| `MONGODB_URI` | Your MongoDB connection string. |
+| `SESSION_ID` | Custom session name (defaults to `wasi_session`). |
+| `OLD_TEXT_REGEX` | Comma-separated list of patterns to replace. |
+| `NEW_TEXT` | Replacement string (what to put instead of old text). |
+| `OWNER_NUMBER` | Your personal WhatsApp number (e.g., `92123456789`). |
 
 ---
 
-🛠️ Environment Variables
-
-Variable Description
-MONGODB_URI MongoDB connection string
-SESSION_ID Session ID for authentication
-SOURCE_JIDS Source groups/chats to monitor
-TARGET_JIDS Target groups/chats to forward
-OLD_TEXT_REGEX Regex patterns to replace
-NEW_TEXT Replacement text
+## ❤️ **CREDITS**
+- **Base connection**: [Whiskeysockets Baileys](https://github.com/WhiskeySockets/Baileys)
+- **Main Developer**: [Mr Wasi (ixxwasi)](https://github.com/ixxwasi)
+- **Repo Version**: 1.0.0 (Stable)
 
 ---
-
-📁 Repository
-
-```
-https://github.com/KaifxChaudhary-dev/Kaif-Md
-```
-
+> _Powered by Mr Wasi (ixxwasi)_

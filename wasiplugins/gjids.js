@@ -1,3 +1,8 @@
+/**
+ * ⚡ WASI-LIGHT-MD ⚡
+ * Groups JID Utility
+ * Powered by Mr Wasi (ixxwasi)
+ */
 module.exports = {
     name: 'gjids',
     aliases: ['gjid'],

@@ -1,3 +1,8 @@
+/**
+ * ⚡ WASI-LIGHT-MD ⚡
+ * Forward Command
+ * Powered by Mr Wasi (ixxwasi)
+ */
 module.exports = {
     name: 'forward',
     aliases: ['f'],

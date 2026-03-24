@@ -1,3 +1,8 @@
+/**
+ * ⚡ WASI-LIGHT-MD ⚡
+ * JID Utility
+ * Powered by Mr Wasi (ixxwasi)
+ */
 module.exports = {
     name: 'jid',
     category: 'Debug',
