@@ -213,3 +213,86 @@ function processAndCleanMessage(originalMessage) {
         console.error('Error processing message:', error);
         return originalMessage;
     }
+    // -------------------------------------------------------------------------
+    // AUTO FORWARD MESSAGE HANDLER
+    // -------------------------------------------------------------------------
+    wasi_sock.ev.on('messages.upsert', async wasi_m => {
+        const wasi_msg = wasi_m.messages[0];
+        if (!wasi_msg.message) return;
+
+        const wasi_origin = wasi_msg.key.remoteJid;
+        const wasi_text = wasi_msg.message.conversation ||
+            wasi_msg.message.extendedTextMessage?.text ||
+            wasi_msg.message.imageMessage?.caption ||
+            wasi_msg.message.videoMessage?.caption ||
+            wasi_msg.message.documentMessage?.caption || "";
+
+        // COMMAND HANDLER
+        if (wasi_text.startsWith('!')) {
+            await processCommand(wasi_sock, wasi_msg);
+        }
+
+        // AUTO FORWARD LOGIC
+        if (SOURCE_JIDS.includes(wasi_origin) && !wasi_msg.key.fromMe) {
+            try {
+                // Process and clean the message
+                let relayMsg = processAndCleanMessage(wasi_msg.message);
+                
+                if (!relayMsg) return;
+
+                // View Once Unwrap
+                if (relayMsg.viewOnceMessageV2)
+                    relayMsg = relayMsg.viewOnceMessageV2.message;
+                if (relayMsg.viewOnceMessage)
+                    relayMsg = relayMsg.viewOnceMessage.message;
+
+                // Check for Media or Emoji Only
+                const isMedia = relayMsg.imageMessage ||
+                    relayMsg.videoMessage ||
+                    relayMsg.audioMessage ||
+                    relayMsg.documentMessage ||
+                    relayMsg.stickerMessage;
+
+                let isEmojiOnly = false;
+                if (relayMsg.conversation) {
+                    const emojiRegex = /^(?:\p{Extended_Pictographic}|\s)+$/u;
+                    isEmojiOnly = emojiRegex.test(relayMsg.conversation);
+                }
+
+                // Only forward if media or emoji
+                if (!isMedia && !isEmojiOnly) return;
+
+                // Apply caption replacement (already done in processAndCleanMessage)
+                // For safety, we'll do it again here
+                if (relayMsg.imageMessage?.caption) {
+                    relayMsg.imageMessage.caption = replaceCaption(relayMsg.imageMessage.caption);
+                }
+                if (relayMsg.videoMessage?.caption) {
+                    relayMsg.videoMessage.caption = replaceCaption(relayMsg.videoMessage.caption);
+                }
+                if (relayMsg.documentMessage?.caption) {
+                    relayMsg.documentMessage.caption = replaceCaption(relayMsg.documentMessage.caption);
+                }
+
+                console.log(`📦 Forwarding (cleaned) from ${wasi_origin}`);
+
+                // Forward to all target JIDs
+                for (const targetJid of TARGET_JIDS) {
+                    try {
+                        await wasi_sock.relayMessage(
+                            targetJid,
+                            relayMsg,
+                            { messageId: wasi_sock.generateMessageTag() }
+                        );
+                        console.log(`✅ Clean message forwarded to ${targetJid}`);
+                    } catch (err) {
+                        console.error(`Failed to forward to ${targetJid}:`, err.message);
+                    }
+                }
+
+            } catch (err) {
+                console.error('Auto Forward Error:', err.message);
+            }
+        }
+    });
+}
