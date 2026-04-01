@@ -22,7 +22,7 @@ const wasi_app = express();
 const wasi_port = process.env.PORT || 3000;
 
 // -----------------------------------------------------------------------------
-// PLUGIN LOADER (Only 4 specific commands)
+// PLUGIN LOADER (Only 5 specific commands)
 // -----------------------------------------------------------------------------
 const wasi_plugins = new Map();
 
@@ -31,7 +31,7 @@ function wasi_loadPlugins() {
     if (!fs.existsSync(pluginDir)) return;
 
     // We only want these specific filenames/commands as per user request
-    const requested = ['autoforward.js', 'forward.js', 'gjids.js', 'jid.js', 'uptime.js', 'ping.js', 'menu.js'];
+    const requested = ['autoforward.js', 'forward.js', 'gjids.js', 'jid.js', 'uptime.js', 'ping.js', 'menu.js', 'antiviewone.js'];
     
     for (const file of requested) {
         const filePath = path.join(pluginDir, file);
